@@ -47,8 +47,8 @@ public class ItemListViewModel extends AndroidViewModel {
         shoppingList = itemsInShoppingList.getShoppingList();
     }
 
-    public void insertItem(Item item) {
-        mDisposable.add(shoppingRepo.insertItem(item)
+    public void insertItem(String itemName) {
+        mDisposable.add(shoppingRepo.insertItem(new Item(itemName, shoppingList.getId()))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(() -> Log.i("DB", "Successfully insert item"),

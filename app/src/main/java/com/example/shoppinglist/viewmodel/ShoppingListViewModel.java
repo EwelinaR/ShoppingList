@@ -40,8 +40,8 @@ public class ShoppingListViewModel extends AndroidViewModel {
                         throwable -> Log.e("DB", "Unable to load shopping lists", throwable)));
     }
 
-    public void insertShoppingList(ShoppingList shoppingList) {
-        mDisposable.add(shoppingRepo.insertShoppingList(shoppingList)
+    public void insertShoppingList(String name) {
+        mDisposable.add(shoppingRepo.insertShoppingList(new ShoppingList("date", name))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(() -> Log.i("DB", "Successfully insert shopping list"),

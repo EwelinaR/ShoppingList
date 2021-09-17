@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,15 +18,19 @@ import android.view.ViewGroup;
 
 import com.example.shoppinglist.Observer;
 import com.example.shoppinglist.R;
+import com.example.shoppinglist.adapter.SwipeToDeleteCallback;
 import com.example.shoppinglist.adapter.ShoppingAdapter;
 import com.example.shoppinglist.model.ShoppingList;
 import com.example.shoppinglist.viewmodel.ShoppingListViewModel;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ShoppingListView extends Fragment implements Observer {
 
     private ShoppingListViewModel shoppingListViewModel;
+    private ShoppingAdapter shoppingAdapter;
 
     public static ShoppingListView newInstance() {
         return new ShoppingListView();
@@ -43,16 +48,34 @@ public class ShoppingListView extends Fragment implements Observer {
         super.onViewCreated(view, savedInstanceState);
         shoppingListViewModel = new ViewModelProvider(this).get(ShoppingListViewModel.class);
 
+        initRecyclerView(view);
+
         shoppingListViewModel.getShoppingLists()
-                .observe(getViewLifecycleOwner(), shopping -> updateRecyclerView(view, shopping));
+                .observe(getViewLifecycleOwner(), this::updateRecyclerView);
+
+        FloatingActionButton fab = view.findViewById(R.id.addItem);
+        fab.setOnClickListener(view1 -> showAddItemDialog());
     }
 
-    private void updateRecyclerView(View view, List<ShoppingList> shoppingList) {
-        ShoppingAdapter adapter = new ShoppingAdapter(shoppingList, this);
+    void initRecyclerView(View view) {
+        shoppingAdapter = new ShoppingAdapter(new ArrayList<>(), this);
 
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.listItem);
-        recyclerView.setAdapter(adapter);
+        recyclerView.setAdapter(shoppingAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+
+        ItemTouchHelper itemTouchHelper =
+                new ItemTouchHelper(new SwipeToDeleteCallback(shoppingAdapter));
+        itemTouchHelper.attachToRecyclerView(recyclerView);
+    }
+
+    void showAddItemDialog() {
+        AddItemDialog dialog = new AddItemDialog(this);
+        dialog.show(getParentFragmentManager(), "AddDialogFragment");
+    }
+
+    private void updateRecyclerView(List<ShoppingList> shoppingList) {
+        shoppingAdapter.submitItems(shoppingList);
     }
 
     @Override
@@ -65,5 +88,15 @@ public class ShoppingListView extends Fragment implements Observer {
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.container, fragment).addToBackStack(null);
         ft.commit();
+    }
+
+    @Override
+    public void save(String name) {
+        shoppingListViewModel.insertShoppingList(name);
+    }
+
+    @Override
+    public void delete(int position) {
+
     }
 }

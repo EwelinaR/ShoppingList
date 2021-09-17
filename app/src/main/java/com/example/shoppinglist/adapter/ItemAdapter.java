@@ -15,7 +15,7 @@ import com.example.shoppinglist.model.Item;
 
 import java.util.List;
 
-public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
+public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> implements Adapter {
     private final List<Item> items;
     private final Observer observer;
 
@@ -55,6 +55,19 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     @Override
     public int getItemCount() {
         return items.size();
+    }
+
+    public void submitItems(List<Item> newItems) {
+        items.clear();
+        items.addAll(newItems);
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public void deleteItem(int position) {
+        items.remove(position);
+        notifyItemRemoved(position);
+        observer.delete(position);
     }
 }
 
