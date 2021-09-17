@@ -74,12 +74,23 @@ public class ItemListView extends Fragment implements Observer {
 
     @Override
     public void onClickItem(int itemId) {
-        // edit name
+        for (Item i : itemListViewModel.getItems().getValue()) {
+            if (i.getId() == itemId) {
+                AddItemDialog dialog = new AddItemDialog(i.getId(), i.getName(), this);
+                dialog.show(getParentFragmentManager(), "EditDialogFragment");
+                return;
+            }
+        }
     }
 
     @Override
-    public void save(String name) {
+    public void add(String name) {
         itemListViewModel.insertItem(name);
+    }
+
+    @Override
+    public void update(int itemId, String name) {
+        itemListViewModel.updateItem(itemId, name);
     }
 
     @Override

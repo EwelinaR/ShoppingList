@@ -91,9 +91,12 @@ public class ShoppingListView extends Fragment implements Observer {
     }
 
     @Override
-    public void save(String name) {
+    public void add(String name) {
         shoppingListViewModel.insertShoppingList(name);
     }
+
+    @Override
+    public void update(int itemId, String name) { }
 
     @Override
     public void delete(int position) {

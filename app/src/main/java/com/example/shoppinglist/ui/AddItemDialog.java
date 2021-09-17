@@ -18,10 +18,13 @@ public class AddItemDialog extends DialogFragment {
 
     private EditText itemName;
     private final Observer observer;
+    private String name = "";
+    private int id = -1;
 
-    public AddItemDialog(String name, Observer observer) {
-        itemName.setText(name);
+    public AddItemDialog(int id, String name, Observer observer) {
+        this.name = name;
         this.observer = observer;
+        this.id = id;
     }
 
     public AddItemDialog(Observer observer) {
@@ -42,12 +45,17 @@ public class AddItemDialog extends DialogFragment {
             .setNegativeButton(R.string.cancel, (dialog, id) -> { });
 
         itemName = (EditText) view.findViewById(R.id.name);
+        itemName.setText(name);
 
         return builder.create();
     }
 
     private void save() {
         itemName.getText();
-        observer.save(itemName.getText().toString());
+        if (name.isEmpty()) {
+            observer.add(itemName.getText().toString());
+        } else {
+            observer.update(id, itemName.getText().toString());
+        }
     }
 }

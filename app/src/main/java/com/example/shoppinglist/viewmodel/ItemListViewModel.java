@@ -63,6 +63,20 @@ public class ItemListViewModel extends AndroidViewModel {
                         throwable -> Log.e("DB", "Unable to delete item", throwable)));
     }
 
+    public void updateItem(int itemId, String itemName) {
+        for(Item i: items.getValue()) {
+            if (i.getId() == itemId) {
+                i.setName(itemName);
+                mDisposable.add(shoppingRepo.updateItem(i)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(() -> Log.i("DB", "Successfully updated item"),
+                                throwable -> Log.e("DB", "Unable to update item", throwable)));
+                return;
+            }
+        }
+    }
+
     public LiveData<List<Item>> getItems() {
         return items;
     }
