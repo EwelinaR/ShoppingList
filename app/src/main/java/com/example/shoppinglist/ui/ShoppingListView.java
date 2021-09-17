@@ -5,19 +5,24 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
 import com.example.shoppinglist.R;
 import com.example.shoppinglist.ShoppingAdapter;
 import com.example.shoppinglist.model.ShoppingList;
+import com.example.shoppinglist.viewmodel.ShoppingListViewModel;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class ShoppingListView extends Fragment {
+
+    private ShoppingListViewModel shoppingListViewModel;
 
     public static ShoppingListView newInstance() {
         return new ShoppingListView();
@@ -33,18 +38,17 @@ public class ShoppingListView extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        shoppingListViewModel = new ViewModelProvider(this).get(ShoppingListViewModel.class);
 
-        initShoppingList(view);
+        shoppingListViewModel.getShoppingLists()
+                .observe(getViewLifecycleOwner(), shopping -> updateRecyclerView(view, shopping));
     }
 
-    private void initShoppingList(View view) {
-        ArrayList<ShoppingList> arrayOfUsers = new ArrayList<>();
-        arrayOfUsers.add(new ShoppingList("20.03.2021", "Rossmann", null));
-        arrayOfUsers.add(new ShoppingList("22.03.2021", "Auchan", null));
+    private void updateRecyclerView(View view, List<ShoppingList> shoppingList) {
+        ShoppingAdapter adapter = new ShoppingAdapter(shoppingList);
 
-        ShoppingAdapter adapter = new ShoppingAdapter(getContext(), arrayOfUsers);
-
-        ListView listView = (ListView) view.findViewById(R.id.listItem);
-        listView.setAdapter(adapter);
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.listItem);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
     }
 }
