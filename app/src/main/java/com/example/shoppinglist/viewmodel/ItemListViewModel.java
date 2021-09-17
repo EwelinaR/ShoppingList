@@ -55,6 +55,14 @@ public class ItemListViewModel extends AndroidViewModel {
                         throwable -> Log.e("DB", "Unable to insert item", throwable)));
     }
 
+    public void deleteItem(int position) {
+        mDisposable.add(shoppingRepo.deleteItem(items.getValue().get(position))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(() -> Log.i("DB", "Successfully deleted item"),
+                        throwable -> Log.e("DB", "Unable to delete item", throwable)));
+    }
+
     public LiveData<List<Item>> getItems() {
         return items;
     }

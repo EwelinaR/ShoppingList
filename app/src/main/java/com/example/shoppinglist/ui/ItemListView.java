@@ -84,6 +84,6 @@ public class ItemListView extends Fragment implements Observer {
 
     @Override
     public void delete(int position) {
-
+        itemListViewModel.deleteItem(position);
     }
 }

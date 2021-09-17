@@ -1,6 +1,7 @@
 package com.example.shoppinglist.database;
 
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Transaction;
@@ -23,6 +24,9 @@ public interface ShoppingDao {
     @Insert
     Completable insertShoppingList(ShoppingList shoppingList);
 
+    @Delete
+    Completable deleteShoppingList(ShoppingList shoppingList);
+
     @Query("SELECT * FROM shopping_list WHERE shopping_list.id = :id")
     @Transaction
     Flowable<ItemsInShoppingList> getItems(int id);
@@ -32,4 +36,7 @@ public interface ShoppingDao {
 
     @Update
     Completable updateItem(Item item);
+
+    @Delete
+    Completable deleteItem(Item item);
 }

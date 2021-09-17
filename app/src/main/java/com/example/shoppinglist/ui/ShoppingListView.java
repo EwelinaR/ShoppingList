@@ -97,6 +97,6 @@ public class ShoppingListView extends Fragment implements Observer {
 
     @Override
     public void delete(int position) {
-
+        shoppingListViewModel.deleteShoppingList(position);
     }
 }

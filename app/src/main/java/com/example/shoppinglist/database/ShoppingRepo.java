@@ -25,6 +25,10 @@ public class ShoppingRepo {
         return shoppingDao.insertShoppingList(shoppingList);
     }
 
+    public Completable deleteShoppingList(ShoppingList shoppingList) {
+        return shoppingDao.deleteShoppingList(shoppingList);
+    }
+
     public Flowable<ItemsInShoppingList> getItems(int id) {
         return shoppingDao.getItems(id);
     }
@@ -35,5 +39,9 @@ public class ShoppingRepo {
 
     public Completable updateItem(Item item) {
         return shoppingDao.updateItem(item);
+    }
+
+    public Completable deleteItem(Item item) {
+        return shoppingDao.deleteItem(item);
     }
 }
