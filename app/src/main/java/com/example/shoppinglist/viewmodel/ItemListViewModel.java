@@ -10,6 +10,8 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.shoppinglist.database.AppDatabase;
 import com.example.shoppinglist.database.ShoppingRepo;
+import com.example.shoppinglist.model.Item;
+import com.example.shoppinglist.model.ItemsInShoppingList;
 import com.example.shoppinglist.model.ShoppingList;
 
 import java.util.List;
@@ -18,37 +20,42 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class ShoppingListViewModel extends AndroidViewModel {
+public class ItemListViewModel extends AndroidViewModel {
 
     private final CompositeDisposable mDisposable = new CompositeDisposable();
     private final ShoppingRepo shoppingRepo;
-    private final MutableLiveData<List<ShoppingList>> shoppingList = new MutableLiveData<>();
+    private final MutableLiveData<List<Item>> items = new MutableLiveData<>();
+    private ShoppingList shoppingList;
 
-    public ShoppingListViewModel(@NonNull Application application) {
+    public ItemListViewModel(@NonNull Application application) {
         super(application);
+
         AppDatabase database = AppDatabase.getInstance(application);
         shoppingRepo = new ShoppingRepo(database);
-
-        initShoppingLists();
     }
 
-    private void initShoppingLists() {
-        mDisposable.add(shoppingRepo.getAllShoppingLists()
+    public void initModelView(int shoppingListId) {
+        mDisposable.add(shoppingRepo.getItems(shoppingListId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(shoppingList::setValue,
-                        throwable -> Log.e("DB", "Unable to load shopping lists", throwable)));
+                .subscribe(this::setData,
+                        throwable -> Log.e("DB", "Unable to load item list", throwable)));
     }
 
-    public void insertShoppingList(ShoppingList shoppingList) {
-        mDisposable.add(shoppingRepo.insertShoppingList(shoppingList)
+    private void setData(ItemsInShoppingList itemsInShoppingList) {
+        items.setValue(itemsInShoppingList.getItems());
+        shoppingList = itemsInShoppingList.getShoppingList();
+    }
+
+    public void insertItem(Item item) {
+        mDisposable.add(shoppingRepo.insertItem(item)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(() -> Log.i("DB", "Successfully insert shopping list"),
-                        throwable -> Log.e("DB", "Unable to insert shopping list", throwable)));
+                .subscribe(() -> Log.i("DB", "Successfully insert item"),
+                        throwable -> Log.e("DB", "Unable to insert item", throwable)));
     }
 
-    public LiveData<List<ShoppingList>> getShoppingLists() {
-        return shoppingList;
+    public LiveData<List<Item>> getItems() {
+        return items;
     }
 }

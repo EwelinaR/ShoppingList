@@ -12,10 +12,12 @@ import lombok.Setter;
 public class Item {
     @PrimaryKey(autoGenerate = true)
     private int id;
+    private int shoppingListId;
     private String name;
     private boolean isDone = false;
 
-    public Item(String name) {
+    public Item(String name, int shoppingListId) {
         this.name = name;
+        this.shoppingListId = shoppingListId;
     }
 }

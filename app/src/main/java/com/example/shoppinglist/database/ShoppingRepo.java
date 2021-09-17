@@ -1,6 +1,8 @@
 package com.example.shoppinglist.database;
 
 
+import com.example.shoppinglist.model.Item;
+import com.example.shoppinglist.model.ItemsInShoppingList;
 import com.example.shoppinglist.model.ShoppingList;
 
 import java.util.List;
@@ -21,5 +23,17 @@ public class ShoppingRepo {
 
     public Completable insertShoppingList(ShoppingList shoppingList) {
         return shoppingDao.insertShoppingList(shoppingList);
+    }
+
+    public Flowable<ItemsInShoppingList> getItems(int id) {
+        return shoppingDao.getItems(id);
+    }
+
+    public Completable insertItem(Item item) {
+        return shoppingDao.insertItem(item);
+    }
+
+    public Completable updateItem(Item item) {
+        return shoppingDao.updateItem(item);
     }
 }

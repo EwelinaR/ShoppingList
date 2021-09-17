@@ -6,9 +6,10 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
+import com.example.shoppinglist.model.Item;
 import com.example.shoppinglist.model.ShoppingList;
 
-@Database(entities = {ShoppingList.class}, version = 1)
+@Database(entities = {ShoppingList.class, Item.class}, version = 1)
 public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase instance;
 

@@ -1,4 +1,4 @@
-package com.example.shoppinglist;
+package com.example.shoppinglist.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,12 +9,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.shoppinglist.Observer;
+import com.example.shoppinglist.R;
 import com.example.shoppinglist.model.ShoppingList;
 
 import java.util.List;
 
 public class ShoppingAdapter extends RecyclerView.Adapter<ShoppingAdapter.ViewHolder> {
     private final List<ShoppingList> shoppingLists;
+    private final Observer observer;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView name;
@@ -27,8 +30,9 @@ public class ShoppingAdapter extends RecyclerView.Adapter<ShoppingAdapter.ViewHo
         }
     }
 
-    public ShoppingAdapter(List<ShoppingList> shoppingLists) {
+    public ShoppingAdapter(List<ShoppingList> shoppingLists, Observer observer) {
         this.shoppingLists = shoppingLists;
+        this.observer = observer;
     }
 
     @NonNull
@@ -42,8 +46,10 @@ public class ShoppingAdapter extends RecyclerView.Adapter<ShoppingAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.name.setText(shoppingLists.get(position).getName());
-        holder.date.setText(shoppingLists.get(position).getDate());
+        ShoppingList shoppingList = shoppingLists.get(position);
+        holder.name.setText(shoppingList.getName());
+        holder.date.setText(shoppingList.getDate());
+        holder.itemView.setOnClickListener(view -> observer.onClickItem(shoppingList.getId()));
     }
 
     @Override
