@@ -40,6 +40,15 @@ public class ShoppingListViewModel extends AndroidViewModel {
                         throwable -> Log.e("DB", "Unable to load shopping lists", throwable)));
     }
 
+    public ShoppingList getShoppingList(int itemId) {
+        for(ShoppingList i: shoppingList.getValue()) {
+            if (i.getId() == itemId) {
+                return i;
+            }
+        }
+        return null;
+    }
+
     public void insertShoppingList(String name) {
         mDisposable.add(shoppingRepo.insertShoppingList(new ShoppingList("date", name))
                 .subscribeOn(Schedulers.io())
@@ -48,12 +57,15 @@ public class ShoppingListViewModel extends AndroidViewModel {
                         throwable -> Log.e("DB", "Unable to insert shopping list", throwable)));
     }
 
-    public void deleteShoppingList(int position) {
-        mDisposable.add(shoppingRepo.deleteShoppingList(shoppingList.getValue().get(position))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(() -> Log.i("DB", "Successfully deleted shopping list"),
-                        throwable -> Log.e("DB", "Unable to delete shopping list", throwable)));
+    public void deleteShoppingList(int itemId) {
+        ShoppingList shoppingList = getShoppingList(itemId);
+        if (shoppingList != null) {
+            mDisposable.add(shoppingRepo.deleteShoppingList(shoppingList)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(() -> Log.i("DB", "Successfully deleted shopping list"),
+                            throwable -> Log.e("DB", "Unable to delete shopping list", throwable)));
+        }
     }
 
     public LiveData<List<ShoppingList>> getShoppingLists() {

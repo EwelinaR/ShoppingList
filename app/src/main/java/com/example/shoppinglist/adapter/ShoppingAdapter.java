@@ -66,8 +66,9 @@ public class ShoppingAdapter extends RecyclerView.Adapter<ShoppingAdapter.ViewHo
 
     @Override
     public void deleteItem(int position) {
+        int itemId = shoppingLists.get(position).getId();
         shoppingLists.remove(position);
         notifyItemRemoved(position);
-        observer.delete(position);
+        observer.delete(itemId);
     }
 }

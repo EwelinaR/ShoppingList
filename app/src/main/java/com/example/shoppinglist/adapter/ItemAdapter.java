@@ -4,12 +4,13 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.shoppinglist.Observer;
+import com.example.shoppinglist.ItemObserver;
 import com.example.shoppinglist.R;
 import com.example.shoppinglist.model.Item;
 
@@ -17,20 +18,20 @@ import java.util.List;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> implements Adapter {
     private final List<Item> items;
-    private final Observer observer;
+    private final ItemObserver observer;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView name;
-        private final TextView isDone;
+        private final CheckBox isDone;
 
         public ViewHolder(View view) {
             super(view);
             name = (TextView) view.findViewById(R.id.name);
-            isDone = (TextView) view.findViewById(R.id.isDone);
+            isDone = (CheckBox) view.findViewById(R.id.isDone);
         }
     }
 
-    public ItemAdapter(List<Item> items, Observer observer) {
+    public ItemAdapter(List<Item> items, ItemObserver observer) {
         this.items = items;
         this.observer = observer;
     }
@@ -48,7 +49,12 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> im
     public void onBindViewHolder(@NonNull ItemAdapter.ViewHolder holder, int position) {
         Item item = items.get(position);
         holder.name.setText(item.getName());
-        holder.isDone.setText(String.valueOf(item.isDone()));
+        holder.isDone.setChecked(item.isDone());
+        holder.isDone.setOnClickListener(view -> {
+            item.setDone(holder.isDone.isChecked());
+            notifyItemChanged(position);
+            observer.isDone(item.getId(), item.isDone());
+        });
         holder.itemView.setOnClickListener(view -> observer.onClickItem(item.getId()));
     }
 
@@ -65,9 +71,9 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> im
 
     @Override
     public void deleteItem(int position) {
+        int itemId = items.get(position).getId();
         items.remove(position);
         notifyItemRemoved(position);
-        observer.delete(position);
+        observer.delete(itemId);
     }
 }
-

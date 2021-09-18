@@ -41,8 +41,8 @@ public class AddItemDialog extends DialogFragment {
         View view = inflater.inflate(R.layout.dialog_add_item, null);
         builder.setView(view)
                 .setTitle(R.string.add_item_dialog_title)
-            .setPositiveButton(R.string.save, (dialog, id) -> save())
-            .setNegativeButton(R.string.cancel, (dialog, id) -> { });
+                .setPositiveButton(R.string.save, (dialog, id) -> save())
+                .setNegativeButton(R.string.cancel, (dialog, id) -> { });
 
         itemName = (EditText) view.findViewById(R.id.name);
         itemName.setText(name);

@@ -13,8 +13,8 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.shoppinglist.ItemObserver;
 import com.example.shoppinglist.adapter.ItemAdapter;
-import com.example.shoppinglist.Observer;
 import com.example.shoppinglist.R;
 import com.example.shoppinglist.adapter.SwipeToDeleteCallback;
 import com.example.shoppinglist.model.Item;
@@ -24,7 +24,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ItemListView extends Fragment implements Observer {
+public class ItemListView extends Fragment implements ItemObserver {
 
     private ItemListViewModel itemListViewModel;
     private ItemAdapter itemAdapter;
@@ -74,6 +74,7 @@ public class ItemListView extends Fragment implements Observer {
 
     @Override
     public void onClickItem(int itemId) {
+        // show edit dialog
         for (Item i : itemListViewModel.getItems().getValue()) {
             if (i.getId() == itemId) {
                 AddItemDialog dialog = new AddItemDialog(i.getId(), i.getName(), this);
@@ -94,7 +95,12 @@ public class ItemListView extends Fragment implements Observer {
     }
 
     @Override
-    public void delete(int position) {
-        itemListViewModel.deleteItem(position);
+    public void delete(int itemId) {
+        itemListViewModel.deleteItem(itemId);
+    }
+
+    @Override
+    public void isDone(int itemId, boolean isDone) {
+        itemListViewModel.updateItem(itemId, isDone);
     }
 }
