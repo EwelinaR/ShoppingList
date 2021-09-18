@@ -14,6 +14,7 @@ import com.example.shoppinglist.model.Item;
 import com.example.shoppinglist.model.ItemsInShoppingList;
 import com.example.shoppinglist.model.ShoppingList;
 
+import java.util.Calendar;
 import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -57,11 +58,12 @@ public class ItemListViewModel extends AndroidViewModel {
     }
 
     public void insertItem(String itemName) {
-        mDisposable.add(shoppingRepo.insertItem(new Item(itemName, shoppingList.getId()))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(() -> Log.i("DB", "Successfully insert item"),
-                        throwable -> Log.e("DB", "Unable to insert item", throwable)));
+        mDisposable.add(shoppingRepo.insertItem(
+                new Item(Calendar.getInstance().getTime(), itemName, shoppingList.getId()))
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(() -> Log.i("DB", "Successfully insert item"),
+                            throwable -> Log.e("DB", "Unable to insert item", throwable)));
     }
 
     public void deleteItem(int itemId) {

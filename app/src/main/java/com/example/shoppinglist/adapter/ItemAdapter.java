@@ -1,7 +1,6 @@
 package com.example.shoppinglist.adapter;
 
 import android.content.Context;
-import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,25 +14,16 @@ import com.example.shoppinglist.ItemObserver;
 import com.example.shoppinglist.R;
 import com.example.shoppinglist.model.Item;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> implements Adapter {
-    private final List<Item> items;
+
+    private final List<Item> items = new ArrayList<>();
     private final ItemObserver observer;
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        private final TextView name;
-        private final CheckBox isChecked;
-
-        public ViewHolder(View view) {
-            super(view);
-            name = (TextView) view.findViewById(R.id.name);
-            isChecked = (CheckBox) view.findViewById(R.id.isChecked);
-        }
-    }
-
-    public ItemAdapter(List<Item> items, ItemObserver observer) {
-        this.items = items;
+    public ItemAdapter(ItemObserver observer) {
         this.observer = observer;
     }
 
@@ -65,6 +55,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> im
     }
 
     public void submitItems(List<Item> newItems) {
+        Collections.sort(newItems, (i1, i2) -> i2.getDate().compareTo(i1.getDate()));
         items.clear();
         items.addAll(newItems);
         notifyDataSetChanged();
@@ -76,5 +67,16 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> im
         items.remove(position);
         notifyItemRemoved(position);
         observer.delete(itemId);
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        private final TextView name;
+        private final CheckBox isChecked;
+
+        public ViewHolder(View view) {
+            super(view);
+            name = (TextView) view.findViewById(R.id.name);
+            isChecked = (CheckBox) view.findViewById(R.id.isChecked);
+        }
     }
 }

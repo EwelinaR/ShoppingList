@@ -56,7 +56,7 @@ public class ItemListView extends Fragment implements ItemObserver {
     }
 
     void initRecyclerView(View view) {
-        itemAdapter = new ItemAdapter(new ArrayList<>(), this);
+        itemAdapter = new ItemAdapter(this);
 
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.listItem);
         recyclerView.setAdapter(itemAdapter);
