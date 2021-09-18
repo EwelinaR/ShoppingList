@@ -87,7 +87,6 @@ public class ItemListViewModel extends AndroidViewModel {
         Item item = getItem(itemId);
         if (item != null) {
             item.setDone(isDone);
-            System.out.println("done? " + isDone);
             update(item);
         }
     }

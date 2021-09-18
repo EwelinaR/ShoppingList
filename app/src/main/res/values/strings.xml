@@ -3,6 +3,7 @@
     <string name="add_item">add item</string>
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
+    <string name="archive">Archive</string>
     <string name="add_item_dialog_title">Add item</string>
     <string name="edit_item_dialog_title">Edit item: %s</string>
     <string name="shopping_lists_title">Your shopping lists</string>

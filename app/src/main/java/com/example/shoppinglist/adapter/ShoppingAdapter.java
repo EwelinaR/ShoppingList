@@ -15,11 +15,14 @@ import com.example.shoppinglist.model.ShoppingList;
 
 import java.util.List;
 
+import lombok.Getter;
+
 public class ShoppingAdapter extends RecyclerView.Adapter<ShoppingAdapter.ViewHolder>
         implements Adapter {
     private final List<ShoppingList> shoppingLists;
     private final Observer observer;
 
+    @Getter
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView name;
         private final TextView date;
