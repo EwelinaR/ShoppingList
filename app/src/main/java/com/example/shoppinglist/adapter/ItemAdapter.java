@@ -1,6 +1,7 @@
 package com.example.shoppinglist.adapter;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,12 +23,12 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> im
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView name;
-        private final CheckBox isDone;
+        private final CheckBox isChecked;
 
         public ViewHolder(View view) {
             super(view);
             name = (TextView) view.findViewById(R.id.name);
-            isDone = (CheckBox) view.findViewById(R.id.isDone);
+            isChecked = (CheckBox) view.findViewById(R.id.isChecked);
         }
     }
 
@@ -49,11 +50,11 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> im
     public void onBindViewHolder(@NonNull ItemAdapter.ViewHolder holder, int position) {
         Item item = items.get(position);
         holder.name.setText(item.getName());
-        holder.isDone.setChecked(item.isDone());
-        holder.isDone.setOnClickListener(view -> {
-            item.setDone(holder.isDone.isChecked());
+        holder.isChecked.setChecked(item.isChecked());
+        holder.isChecked.setOnClickListener(view -> {
+            item.setChecked(holder.isChecked.isChecked());
             notifyItemChanged(position);
-            observer.isDone(item.getId(), item.isDone());
+            observer.isChecked(item.getId(), item.isChecked());
         });
         holder.itemView.setOnClickListener(view -> observer.onClickItem(item.getId()));
     }

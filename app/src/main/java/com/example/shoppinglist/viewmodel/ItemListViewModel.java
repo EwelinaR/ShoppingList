@@ -83,10 +83,10 @@ public class ItemListViewModel extends AndroidViewModel {
         }
     }
 
-    public void updateItem(int itemId, boolean isDone) {
+    public void updateItem(int itemId, boolean isChecked) {
         Item item = getItem(itemId);
         if (item != null) {
-            item.setDone(isDone);
+            item.setChecked(isChecked);
             update(item);
         }
     }

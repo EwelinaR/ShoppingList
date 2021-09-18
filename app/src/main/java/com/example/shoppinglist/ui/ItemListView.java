@@ -104,7 +104,7 @@ public class ItemListView extends Fragment implements ItemObserver {
     }
 
     @Override
-    public void isDone(int itemId, boolean isDone) {
-        itemListViewModel.updateItem(itemId, isDone);
+    public void isChecked(int itemId, boolean isChecked) {
+        itemListViewModel.updateItem(itemId, isChecked);
     }
 }

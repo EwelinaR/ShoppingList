@@ -56,7 +56,9 @@ public class AddItemDialog extends DialogFragment {
     }
 
     private void save() {
-        itemName.getText();
+        if (itemName.getText().toString().isEmpty()) {
+            return;
+        }
         if (name.isEmpty()) {
             observer.add(itemName.getText().toString());
         } else {

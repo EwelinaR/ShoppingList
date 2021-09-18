@@ -14,7 +14,7 @@ public class Item {
     private int id;
     private int shoppingListId;
     private String name;
-    private boolean isDone = false;
+    private boolean isChecked = false;
 
     public Item(String name, int shoppingListId) {
         this.name = name;
