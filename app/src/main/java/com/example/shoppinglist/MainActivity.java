@@ -34,10 +34,13 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.container, new ArchiveShoppingListView()).addToBackStack(null);
-        ft.commit();
-        return true;
+        if (item.getItemId() == R.id.archive_menu_item) {
+            FragmentManager fm = getSupportFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            ft.replace(R.id.container, new ArchiveShoppingListView()).addToBackStack(null);
+            ft.commit();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

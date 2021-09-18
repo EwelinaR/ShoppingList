@@ -18,14 +18,14 @@ import io.reactivex.Flowable;
 
 @Dao
 public interface ShoppingDao {
-    @Query("SELECT * FROM shopping_list")
-    Flowable<List<ShoppingList>> getAllShoppingLists();
+    @Query("SELECT * FROM shopping_list WHERE isArchived=:isArchived")
+    Flowable<List<ShoppingList>> getShoppingLists(boolean isArchived);
 
     @Insert
     Completable insertShoppingList(ShoppingList shoppingList);
 
-    @Delete
-    Completable deleteShoppingList(ShoppingList shoppingList);
+    @Update
+    Completable updateShoppingList(ShoppingList shoppingList);
 
     @Query("SELECT * FROM shopping_list WHERE shopping_list.id = :id")
     @Transaction

@@ -33,7 +33,7 @@ public class ArchiveShoppingListViewModel extends AndroidViewModel {
     }
 
     private void initShoppingLists() {
-        mDisposable.add(shoppingRepo.getAllShoppingLists()
+        mDisposable.add(shoppingRepo.getShoppingLists(true)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(shoppingList::setValue,

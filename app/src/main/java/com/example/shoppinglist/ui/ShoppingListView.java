@@ -104,6 +104,6 @@ public class ShoppingListView extends Fragment implements Observer {
 
     @Override
     public void delete(int itemId) {
-        shoppingListViewModel.deleteShoppingList(itemId);
+        shoppingListViewModel.archiveShoppingList(itemId);
     }
 }

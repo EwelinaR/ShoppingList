@@ -33,7 +33,7 @@ public class ShoppingListViewModel extends AndroidViewModel {
     }
 
     private void initShoppingLists() {
-        mDisposable.add(shoppingRepo.getAllShoppingLists()
+        mDisposable.add(shoppingRepo.getShoppingLists(false)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(shoppingList::setValue,
@@ -57,10 +57,11 @@ public class ShoppingListViewModel extends AndroidViewModel {
                         throwable -> Log.e("DB", "Unable to insert shopping list", throwable)));
     }
 
-    public void deleteShoppingList(int itemId) {
+    public void archiveShoppingList(int itemId) {
         ShoppingList shoppingList = getShoppingList(itemId);
         if (shoppingList != null) {
-            mDisposable.add(shoppingRepo.deleteShoppingList(shoppingList)
+            shoppingList.setArchived(true);
+            mDisposable.add(shoppingRepo.updateShoppingList(shoppingList)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(() -> Log.i("DB", "Successfully deleted shopping list"),

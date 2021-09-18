@@ -14,6 +14,7 @@ public class ShoppingList {
     private int id;
     private String date;
     private String name;
+    private boolean isArchived = false;
 
     public ShoppingList(String date, String name) {
         this.date = date;

@@ -17,16 +17,16 @@ public class ShoppingRepo {
         shoppingDao = database.shoppingDao();
     }
 
-    public Flowable<List<ShoppingList>> getAllShoppingLists() {
-        return shoppingDao.getAllShoppingLists();
+    public Flowable<List<ShoppingList>> getShoppingLists(boolean isArchived) {
+        return shoppingDao.getShoppingLists(isArchived);
     }
 
     public Completable insertShoppingList(ShoppingList shoppingList) {
         return shoppingDao.insertShoppingList(shoppingList);
     }
 
-    public Completable deleteShoppingList(ShoppingList shoppingList) {
-        return shoppingDao.deleteShoppingList(shoppingList);
+    public Completable updateShoppingList(ShoppingList shoppingList) {
+        return shoppingDao.updateShoppingList(shoppingList);
     }
 
     public Flowable<ItemsInShoppingList> getItems(int id) {
