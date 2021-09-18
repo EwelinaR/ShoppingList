@@ -5,6 +5,5 @@
     <string name="cancel">Cancel</string>
     <string name="add_item_dialog_title">Add item</string>
     <string name="edit_item_dialog_title">Edit item: %s</string>
-    <string name="add_shopping_list_dialog_title">Add shopping list</string>
-    <string name="edit_shopping_list_dialog_title">Edit list: %s</string>
+    <string name="shopping_lists_title">Your shopping lists</string>
 </resources>

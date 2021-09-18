@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.shoppinglist.MainActivity;
 import com.example.shoppinglist.Observer;
 import com.example.shoppinglist.R;
 import com.example.shoppinglist.adapter.SwipeToDeleteCallback;
@@ -47,6 +48,8 @@ public class ShoppingListView extends Fragment implements Observer {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         shoppingListViewModel = new ViewModelProvider(this).get(ShoppingListViewModel.class);
+
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle(R.string.shopping_lists_title);
 
         initRecyclerView(view);
 
@@ -83,6 +86,7 @@ public class ShoppingListView extends Fragment implements Observer {
         ItemListView fragment = new ItemListView();
         Bundle bundle = new Bundle();
         bundle.putInt("ITEM_ID", itemId);
+        bundle.putString("SHOPPING_LIST", shoppingListViewModel.getShoppingList(itemId).getName());
         fragment.setArguments(bundle);
         FragmentManager fm = getParentFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();

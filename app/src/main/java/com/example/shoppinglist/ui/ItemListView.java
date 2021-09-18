@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shoppinglist.ItemObserver;
+import com.example.shoppinglist.MainActivity;
 import com.example.shoppinglist.adapter.ItemAdapter;
 import com.example.shoppinglist.R;
 import com.example.shoppinglist.adapter.SwipeToDeleteCallback;
@@ -44,8 +45,11 @@ public class ItemListView extends Fragment implements ItemObserver {
         initRecyclerView(view);
 
         int id = getArguments().getInt("ITEM_ID");
+        String shoppingListName = getArguments().getString("SHOPPING_LIST");
         itemListViewModel.initModelView(id);
         itemListViewModel.getItems().observe(getViewLifecycleOwner(), this::updateRecyclerView);
+
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle(shoppingListName);
 
         FloatingActionButton fab = view.findViewById(R.id.addItem);
         fab.setOnClickListener(view1 -> showAddItemDialog());
