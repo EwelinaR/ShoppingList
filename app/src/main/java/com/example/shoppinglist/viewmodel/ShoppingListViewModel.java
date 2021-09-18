@@ -12,6 +12,7 @@ import com.example.shoppinglist.database.AppDatabase;
 import com.example.shoppinglist.database.ShoppingRepo;
 import com.example.shoppinglist.model.ShoppingList;
 
+import java.util.Calendar;
 import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -50,11 +51,12 @@ public class ShoppingListViewModel extends AndroidViewModel {
     }
 
     public void insertShoppingList(String name) {
-        mDisposable.add(shoppingRepo.insertShoppingList(new ShoppingList("date", name))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(() -> Log.i("DB", "Successfully insert shopping list"),
-                        throwable -> Log.e("DB", "Unable to insert shopping list", throwable)));
+        mDisposable.add(shoppingRepo.insertShoppingList(
+                new ShoppingList(Calendar.getInstance().getTime(), name))
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(() -> Log.i("DB", "Successfully insert shopping list"),
+                            throwable -> Log.e("DB", "Unable to insert shopping list", throwable)));
     }
 
     public void archiveShoppingList(int itemId) {

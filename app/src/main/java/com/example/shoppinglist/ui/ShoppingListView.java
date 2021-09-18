@@ -61,7 +61,7 @@ public class ShoppingListView extends Fragment implements Observer {
     }
 
     void initRecyclerView(View view) {
-        shoppingAdapter = new ShoppingAdapter(new ArrayList<>(), this);
+        shoppingAdapter = new ShoppingAdapter( this);
 
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.listItem);
         recyclerView.setAdapter(shoppingAdapter);
