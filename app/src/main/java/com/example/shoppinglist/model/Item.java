@@ -28,4 +28,25 @@ public class Item {
         this.name = name;
         this.shoppingListId = shoppingListId;
     }
+
+    // getters / setters required for Kotlin class (ItemAdapter.kt)
+    public String getName() {
+        return name;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    public void setChecked(boolean isChecked) {
+        this.isChecked = isChecked;
+    }
+
+    public Date getDate() {
+        return date;
+    }
 }

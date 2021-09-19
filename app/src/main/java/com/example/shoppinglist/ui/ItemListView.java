@@ -15,14 +15,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shoppinglist.ItemObserver;
 import com.example.shoppinglist.MainActivity;
-import com.example.shoppinglist.adapter.ItemAdapter;
 import com.example.shoppinglist.R;
+import com.example.shoppinglist.adapter.ItemAdapter;
 import com.example.shoppinglist.adapter.SwipeToDeleteCallback;
 import com.example.shoppinglist.model.Item;
 import com.example.shoppinglist.viewmodel.ItemListViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ItemListView extends Fragment implements ItemObserver {
