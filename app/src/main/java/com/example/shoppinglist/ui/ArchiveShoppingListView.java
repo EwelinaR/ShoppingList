@@ -35,7 +35,7 @@ public class ArchiveShoppingListView extends Fragment {
         ArchiveShoppingListViewModel archiveShoppingListViewModel = new ViewModelProvider(this)
                 .get(ArchiveShoppingListViewModel.class);
 
-        ((MainActivity) getActivity()).getSupportActionBar().setTitle(R.string.shopping_lists_title);
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle(R.string.archive_lists_title);
 
         archiveShoppingListViewModel.getShoppingLists()
                 .observe(getViewLifecycleOwner(), shoppingLists -> updateRecyclerView(view, shoppingLists));

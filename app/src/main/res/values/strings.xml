@@ -7,4 +7,6 @@
     <string name="add_item_dialog_title">Add item</string>
     <string name="edit_item_dialog_title">Edit item: %s</string>
     <string name="shopping_lists_title">Your shopping lists</string>
+    <string name="archive_lists_title">Your archived shopping lists</string>
+    <string name="shopping_icon">shopping icon</string>
 </resources>
