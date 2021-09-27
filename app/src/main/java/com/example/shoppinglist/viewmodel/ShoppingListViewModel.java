@@ -21,6 +21,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class ShoppingListViewModel extends AndroidViewModel {
 
+    private static final String TAG = "DB";
     private final CompositeDisposable mDisposable = new CompositeDisposable();
     private final ShoppingRepo shoppingRepo;
     private final MutableLiveData<List<ShoppingList>> shoppingList = new MutableLiveData<>();
@@ -38,7 +39,7 @@ public class ShoppingListViewModel extends AndroidViewModel {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(shoppingList::setValue,
-                        throwable -> Log.e("DB", "Unable to load shopping lists", throwable)));
+                        throwable -> Log.e(TAG, "Unable to load shopping lists", throwable)));
     }
 
     public ShoppingList getShoppingList(int itemId) {
@@ -55,8 +56,8 @@ public class ShoppingListViewModel extends AndroidViewModel {
                 new ShoppingList(Calendar.getInstance().getTime(), name))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(() -> Log.i("DB", "Successfully insert shopping list"),
-                            throwable -> Log.e("DB", "Unable to insert shopping list", throwable)));
+                    .subscribe(() -> Log.i(TAG, "Successfully insert shopping list"),
+                            throwable -> Log.e(TAG, "Unable to insert shopping list", throwable)));
     }
 
     public void archiveShoppingList(int itemId) {
@@ -66,12 +67,17 @@ public class ShoppingListViewModel extends AndroidViewModel {
             mDisposable.add(shoppingRepo.updateShoppingList(shoppingList)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(() -> Log.i("DB", "Successfully deleted shopping list"),
-                            throwable -> Log.e("DB", "Unable to delete shopping list", throwable)));
+                    .subscribe(() -> Log.i(TAG, "Successfully deleted shopping list"),
+                            throwable -> Log.e(TAG, "Unable to delete shopping list", throwable)));
         }
     }
 
     public LiveData<List<ShoppingList>> getShoppingLists() {
         return shoppingList;
+    }
+
+    @Override
+    public void onCleared() {
+        mDisposable.clear();
     }
 }
